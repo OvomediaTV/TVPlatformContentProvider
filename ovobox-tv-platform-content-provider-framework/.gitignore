@@ -1,0 +1,9 @@
+.classpath
+.project
+.settings
+.DS_Store
+bin
+gen
+doc/html
+libs
+obj
