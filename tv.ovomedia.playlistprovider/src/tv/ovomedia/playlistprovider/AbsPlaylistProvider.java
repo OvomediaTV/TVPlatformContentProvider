@@ -35,18 +35,6 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         mAuthority = getAuthority();
-        addAuthority(mAuthority);
-        return true;
-    }
-    
-    /**
-     * Add extra authority to this provider.
-     * If you map two or more authority to this playlist provider, 
-     * you can set those authorities here.
-     * 
-     * @param authority Another authority.
-     */
-    public void addAuthority(String authority) {
 //      mUriMatcher.addURI(mAuthority, "playlist/get", ID_GET_PLAYLIST);
         mUriMatcher.addURI(mAuthority, "playlistItem/getLast", ID_GET_LAST_PLAYED_ITEM);
         mUriMatcher.addURI(mAuthority, "playlistItem/setLast/*", ID_SET_LAST_PLAYED_ITEM);
@@ -55,7 +43,8 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
         mUriMatcher.addURI(mAuthority, "playlistItem/reportWatching/*", ID_REPORT_ITEM_WATCHING);
         mUriMatcher.addURI(mAuthority, "playlistItem/reportWatched/*", ID_REPORT_ITEM_WATCHED);
         mUriMatcher.addURI(mAuthority, "playlistItem/reportContinue/*", ID_REPORT_ITEM_CONTINUE_WATCHING);
-        mUriMatcher.addURI(mAuthority, "playlistItem/reportSkipped/*", ID_REPORT_ITEM_SKIPPED);   
+        mUriMatcher.addURI(mAuthority, "playlistItem/reportSkipped/*", ID_REPORT_ITEM_SKIPPED);
+        return true;
     }
     
     /**
