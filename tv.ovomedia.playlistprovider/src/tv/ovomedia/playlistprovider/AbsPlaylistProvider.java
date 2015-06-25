@@ -57,7 +57,7 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
      * 
      * @return The default authority.
      */
-    private String getAuthority() {
+    protected String getAuthority() {
         return getContext().getPackageName() + AUTHORITY_SUFFIX;
     }
     
