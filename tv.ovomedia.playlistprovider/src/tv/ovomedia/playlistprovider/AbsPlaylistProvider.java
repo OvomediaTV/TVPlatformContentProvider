@@ -336,6 +336,16 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
         return null;
     }
     
+    /**
+     * OVO launcher query APP login state by calling this method.
+     * If the return value is 'false', OVO launcher will show a message 
+     * to user to tell them to login. 
+     * 
+     * If your application does not require user to login, then return 
+     * 'true'.
+     * 
+     * @return Login state.
+     */
     protected abstract LoginState getLoginState();
 
     @Override
