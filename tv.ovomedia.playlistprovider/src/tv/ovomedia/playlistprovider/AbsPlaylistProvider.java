@@ -22,12 +22,16 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
     public static final int ID_REPORT_ITEM_WATCHED = 7;
     public static final int ID_REPORT_ITEM_CONTINUE_WATCHING = 8;
     public static final int ID_REPORT_ITEM_SKIPPED = 9;
+    public static final int ID_GET_STATE = 10;
     
     // Columns in returned values.
     public static final String COL_VIDEO_ID = "videoId";
     public static final String COL_VIDEO_TITLE = "videoTitle";
     public static final String COL_VIDEO_URL = "videoUrl";
     public static final String COL_STREAM_TYPE = "streamType";
+    
+    // Columns in returned login state.
+    public static final String COL_IS_LOGGED_IN = "isLoggedIn";
     
     private UriMatcher mUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     private String mAuthority = null;
@@ -44,6 +48,7 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
         mUriMatcher.addURI(mAuthority, "playlistItem/reportWatched/*", ID_REPORT_ITEM_WATCHED);
         mUriMatcher.addURI(mAuthority, "playlistItem/reportContinue/*", ID_REPORT_ITEM_CONTINUE_WATCHING);
         mUriMatcher.addURI(mAuthority, "playlistItem/reportSkipped/*", ID_REPORT_ITEM_SKIPPED);
+        mUriMatcher.addURI(mAuthority, "state/*", ID_GET_STATE);
         return true;
     }
     
@@ -72,6 +77,8 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
         case ID_GET_NEXT_ITEM_IN_PLAYLIST:
         case ID_GET_PREV_ITEM_IN_PLAYLIST:
             return "vnd.android.cursor.item/vnd." + mAuthority + ".playlistItem";
+        case ID_GET_STATE:
+            return "vnd.android.cursor.item/vnd." + mAuthority + ".state";
         }
         
         return null;
@@ -91,6 +98,8 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
             return queryNextItemInPlaylist(uri.getLastPathSegment());
         case ID_GET_PREV_ITEM_IN_PLAYLIST:
             return queryPrevItemInPlaylist(uri.getLastPathSegment());
+        case ID_GET_STATE:
+            return queryState(uri.getLastPathSegment());
         }
         
         return null;
@@ -305,6 +314,29 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
      * @param videoId The ID of the stopped video item.
      */
     protected abstract void reportSkipped(String videoId);
+    
+    private Cursor queryState(String stateName) {
+        MatrixCursor cursor = null;
+        
+        if (stateName == null) {
+            return null;
+        }
+        
+        if (stateName.equals("login")) {
+            LoginState state = getLoginState();
+            cursor = new MatrixCursor(new String[] {
+                    COL_IS_LOGGED_IN
+            });
+            cursor.addRow(new String[] {
+                    new Boolean(state.isLoggedIn()).toString()
+            });
+            return cursor;
+        }
+            
+        return null;
+    }
+    
+    protected abstract LoginState getLoginState();
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
