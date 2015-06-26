@@ -87,6 +87,11 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, 
             String[] selectionArgs, String sortOrder) {
+        
+        if (PermissionChecker.checkSignature(getContext()) == false) {
+            return null;
+        }
+        
         int id = mUriMatcher.match(uri);
         
         switch(id) {
@@ -248,6 +253,11 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection, 
             String[] selectionArgs) {
+        
+        if (PermissionChecker.checkSignature(getContext()) == false) {
+            return 0;
+        }
+        
         int id = mUriMatcher.match(uri);
         
         switch(id) {
