@@ -19,7 +19,7 @@ public class PlaylistProvider extends AbsPlaylistProvider{
             return new ProviderPlaylistItem(
                     lastVideoId,
                     "測試直播",
-                    "http://58.99.33.2:1935/liveedge/live_53_1.stream/playlist.m3u8?checkCode=37050688asdfsdfsadf&aa=130197&as=123456",
+                    "https://www.youtube.com/watch?v=ESKjSwcswBM",
                     ProviderPlaylistItem.STREAM_TYPE_LIVE);
         } else {
             /*
@@ -30,7 +30,7 @@ public class PlaylistProvider extends AbsPlaylistProvider{
             return new ProviderPlaylistItem(
                     "123",
                     "測試直播",
-                    "http://58.99.33.2:1935/liveedge/live_53_1.stream/playlist.m3u8?checkCode=37050688asdfsdfsadf&aa=130197&as=123456",
+                    "https://www.youtube.com/watch?v=ESKjSwcswBM",
                     ProviderPlaylistItem.STREAM_TYPE_LIVE);    
         }
     }
@@ -41,7 +41,7 @@ public class PlaylistProvider extends AbsPlaylistProvider{
         return new ProviderPlaylistItem(
                 "123",
                 "測試直播",
-                "http://58.99.33.2:1935/liveedge/live_53_1.stream/playlist.m3u8?checkCode=37050688asdfsdfsadf&aa=130197&as=123456",
+                "https://www.youtube.com/watch?v=ESKjSwcswBM",
                 ProviderPlaylistItem.STREAM_TYPE_LIVE);
     }
 
@@ -51,7 +51,7 @@ public class PlaylistProvider extends AbsPlaylistProvider{
         return new ProviderPlaylistItem(
                 "123",
                 "測試直播",
-                "http://58.99.33.2:1935/liveedge/live_53_1.stream/playlist.m3u8?checkCode=37050688asdfsdfsadf&aa=130197&as=123456",
+                "https://www.youtube.com/watch?v=ESKjSwcswBM",
                 ProviderPlaylistItem.STREAM_TYPE_LIVE);
     }
 
