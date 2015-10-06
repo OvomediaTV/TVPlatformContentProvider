@@ -1,5 +1,8 @@
 package tv.ovomedia.playlistprovider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -13,7 +16,7 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
     public static final String AUTHORITY_SUFFIX = ".provider.OVOPlaylistProvider";
     
     // IDs for UriMatcher.
-    public static final int ID_GET_PLAYLIST = 1;
+    public static final int ID_GET_PUBLISHED_PLAYLIST = 1;
     public static final int ID_GET_LAST_PLAYED_ITEM = 2;
     public static final int ID_SET_LAST_PLAYED_ITEM = 3;
     public static final int ID_GET_NEXT_ITEM_IN_PLAYLIST = 4;
@@ -39,7 +42,7 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         mAuthority = getAuthority();
-//      mUriMatcher.addURI(mAuthority, "playlist/get", ID_GET_PLAYLIST);
+        mUriMatcher.addURI(mAuthority, "playlistItem/getPublished", ID_GET_PUBLISHED_PLAYLIST);
         mUriMatcher.addURI(mAuthority, "playlistItem/getLast", ID_GET_LAST_PLAYED_ITEM);
         mUriMatcher.addURI(mAuthority, "playlistItem/setLast/*", ID_SET_LAST_PLAYED_ITEM);
         mUriMatcher.addURI(mAuthority, "playlistItem/getNext/*", ID_GET_NEXT_ITEM_IN_PLAYLIST);
@@ -71,8 +74,7 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
         int id = mUriMatcher.match(uri);
         
         switch(id) {
-//        case ID_GET_PLAYLIST:
-//            return "vnd.android.cursor.dir/vnd." + mAuthority + ".playlist";
+        case ID_GET_PUBLISHED_PLAYLIST:
         case ID_GET_LAST_PLAYED_ITEM:
         case ID_GET_NEXT_ITEM_IN_PLAYLIST:
         case ID_GET_PREV_ITEM_IN_PLAYLIST:
@@ -95,8 +97,8 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
         int id = mUriMatcher.match(uri);
         
         switch(id) {
-//        case ID_GET_PLAYLIST:
-//            return queryLastPlaylist();
+        case ID_GET_PUBLISHED_PLAYLIST:
+            return queryPublishedPlaylist();
         case ID_GET_LAST_PLAYED_ITEM:
             return queryLastPlayedItem();
         case ID_GET_NEXT_ITEM_IN_PLAYLIST:
@@ -110,30 +112,32 @@ public abstract class AbsPlaylistProvider extends ContentProvider {
         return null;
     }
 
-//    protected abstract List<PlaylistItem> getLastPlaylist();
-//    
-//    private Cursor queryLastPlaylist() {
-//        List<PlaylistItem> playlist = getLastPlaylist();
-//        MatrixCursor cursor = new MatrixCursor(new String[] {
-//                COL_VIDEO_ID,
-//                COL_VIDEO_TITLE,
-//                COL_VIDEO_URL,
-//                COL_STREAM_TYPE
-//        });
-//        
-//        if (playlist != null) {
-//            for (PlaylistItem item : playlist) {
-//                cursor.addRow(new String[] {
-//                        item.getVideoId(),
-//                        item.getTitle(),
-//                        item.getUrl(),
-//                        Integer.toString(item.getStreamType())
-//                });
-//            }    
-//        }
-//        
-//        return cursor;
-//    }
+    protected List<ProviderPlaylistItem> getPublishedPlaylist() {
+        return new ArrayList<ProviderPlaylistItem>();
+    }
+    
+    private Cursor queryPublishedPlaylist() {
+        List<ProviderPlaylistItem> playlist = getPublishedPlaylist();
+        MatrixCursor cursor = new MatrixCursor(new String[] {
+                COL_VIDEO_ID,
+                COL_VIDEO_TITLE,
+                COL_VIDEO_URL,
+                COL_STREAM_TYPE
+        });
+        
+        if (playlist != null) {
+            for (ProviderPlaylistItem item : playlist) {
+                cursor.addRow(new String[] {
+                        item.getVideoId(),
+                        item.getTitle(),
+                        item.getUrl(),
+                        Integer.toString(item.getStreamType())
+                });
+            }    
+        }
+        
+        return cursor;
+    }
     
     /**
      * Implement this method to return an item to be played in OVO launcher.

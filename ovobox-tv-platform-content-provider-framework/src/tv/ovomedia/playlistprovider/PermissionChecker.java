@@ -16,6 +16,7 @@ public class PermissionChecker {
     static {
         ALLOWED_PACKAGES = new ArrayList<String>();
         ALLOWED_PACKAGES.add("tv.ovomedia.launcher");
+        ALLOWED_PACKAGES.add("com.example.ovo.content.provider.test");
         
         ALLOWED_SIGNATURES = new ArrayList<String>();
         ALLOWED_SIGNATURES.add("f7d4907b"); // ovo key
